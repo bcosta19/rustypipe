@@ -744,6 +744,10 @@ pub(crate) struct CommentAuthor {
     pub is_artist: bool,
     #[serde(default)]
     pub is_creator: bool,
+    /// YouTFast patch: the avatar as YouTube sends it now (one URL sized by
+    /// its `=s88` suffix), since the entity's own `avatar` stopped coming.
+    #[serde(default)]
+    pub avatar_thumbnail_url: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]

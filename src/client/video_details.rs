@@ -633,7 +633,28 @@ fn map_comment_vm(
         author: ce.author.map(|a| ChannelTag {
             id: a.channel_id,
             name: a.display_name,
-            avatar: ce.avatar.image.into(),
+            avatar: {
+                // YouTFast patch: the entity's `avatar` is gone; the author
+                // carries one URL whose `=sNN` suffix is its size.
+                let avatar: Vec<crate::model::Thumbnail> = ce.avatar.image.into();
+                match a.avatar_thumbnail_url {
+                    Some(url) if avatar.is_empty() => {
+                        let size = url
+                            .rsplit_once("=s")
+                            .and_then(|(_, rest)| {
+                                rest.split(|c: char| !c.is_ascii_digit()).next()
+                            })
+                            .and_then(|digits| digits.parse().ok())
+                            .unwrap_or(88);
+                        vec![crate::model::Thumbnail {
+                            url,
+                            width: size,
+                            height: size,
+                        }]
+                    }
+                    _ => avatar,
+                }
+            },
             verification: if a.is_artist {
                 Verification::Artist
             } else if a.is_verified {
