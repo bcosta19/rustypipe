@@ -85,6 +85,9 @@ default = ["default-tls"]
 
 rss = ["dep:quick-xml"]
 userdata = []
+# YouTFast: exposes `client::regression` to its response-format regression
+# tests (tests/youtube_api.rs). Enabled only as a dev-dependency feature.
+regression = []
 
 # Reqwest TLS options
 default-tls = ["reqwest/default-tls"]
