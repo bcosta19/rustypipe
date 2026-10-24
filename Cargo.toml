@@ -91,11 +91,13 @@ regression = []
 
 # Reqwest TLS options
 default-tls = ["reqwest/default-tls"]
-native-tls = ["reqwest/native-tls"]
-native-tls-alpn = ["reqwest/native-tls-alpn"]
-native-tls-vendored = ["reqwest/native-tls-vendored"]
-rustls-tls-webpki-roots = ["reqwest/rustls-tls-webpki-roots"]
-rustls-tls-native-roots = ["reqwest/rustls-tls-native-roots"]
+native-tls = ["reqwest/native-tls-no-alpn"]
+native-tls-alpn = ["reqwest/native-tls"]
+native-tls-vendored = ["reqwest/native-tls-vendored-no-alpn"]
+# YouTFast: reqwest 0.13 verifies through the platform with rustls; ring is
+# installed as the process provider in `build_with_client`.
+rustls-tls-webpki-roots = ["reqwest/rustls-no-provider", "dep:rustls"]
+rustls-tls-native-roots = ["reqwest/rustls-no-provider", "dep:rustls"]
 
 [dependencies]
 rquickjs.workspace = true
@@ -104,7 +106,10 @@ regex.workspace = true
 fancy-regex.workspace = true
 thiserror.workspace = true
 url.workspace = true
-reqwest = { workspace = true, features = ["json", "gzip", "brotli"] }
+# YouTFast: reqwest 0.13 for this crate only; the CLI and the downloader stay
+# on the workspace's 0.12.
+reqwest = { version = "0.13.0", default-features = false, features = ["json", "gzip", "brotli"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"], optional = true }
 tokio = { workspace = true, features = ["macros", "time", "process"] }
 serde.workspace = true
 serde_json.workspace = true
