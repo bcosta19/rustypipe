@@ -5,6 +5,31 @@
 [![Docs](https://img.shields.io/docsrs/rustypipe/latest?style=flat)](https://docs.rs/rustypipe)
 [![CI status](https://codeberg.org/ThetaDev/rustypipe/actions/workflows/ci.yaml/badge.svg?style=flat&label=CI)](https://codeberg.org/ThetaDev/rustypipe/actions/?workflow=ci.yaml)
 
+> [!NOTE]
+> This is [YouTFast](https://github.com/bcosta19/youtfast)'s fork of
+> RustyPipe, on the `youtfast` branch: release 0.11.4 plus the changes
+> YouTFast needs before an upstream release carries them. Upstream lives at
+> [codeberg.org/ThetaDev/rustypipe](https://codeberg.org/ThetaDev/rustypipe);
+> report RustyPipe issues there.
+>
+> On top of `rustypipe/v0.11.4`:
+>
+> - upstream PR #80 (comment authors' avatars, the comment count) and
+>   image/GIF attachments on comments;
+> - a failed visitor-data fetch returned as an error instead of a panic;
+> - channel pages in YouTube's October 2026 layout (sort chips' token,
+>   Shorts items, the Playlists tab's `params`, podcasts, header counts);
+> - `client::history_tracking`, history playback reports through the
+>   shared client;
+> - reqwest 0.13 with rustls and ring for this crate (the CLI and the
+>   downloader are unchanged), with reqwest errors kept with their causes;
+> - video lockups keeping their channel's avatar;
+> - a `regression` feature exposing `client::regression`, hooks for
+>   YouTFast's response-format tests.
+>
+> Each commit names the YouTFast change it comes from. This fork goes away
+> once an upstream release carries these changes.
+
 RustyPipe is a fully featured Rust client for the public YouTube / YouTube Music API
 (Innertube), inspired by [NewPipe](https://github.com/TeamNewPipe/NewPipeExtractor).
 
